@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .intro-box
+    h2 Welcome to the DIY Tech Solutions
+    p Discover computer parts to fit your needs
+  ul.items
+    each item in items
+      li
+        h3= item.name
+        p= item.desc
+        p.price #{item.price}

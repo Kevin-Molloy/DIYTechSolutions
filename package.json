@@ -1,0 +1,17 @@
+{
+  "name": "diy-tech-solutions",
+  "version": "1.0.0",
+  "description": "DIY Tech Solutions site using Express and Pug.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pug": "^3.0.2",
+    "morgan": "^1.10.0",
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.4",
+    "http-errors": "^2.0.0"
+  }
+}

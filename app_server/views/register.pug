@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .intro-box
+    h2 Register
+  form(method='post', action='/register')
+    label(for='firstName') First Name
+    input#name(type='text', name='firstName', required)
+    label(for='lastname') Last Name
+    input#name(type='text', name='lastName', required)    
+    label(for='email') Email
+    input#email(type='email', name='email', required)
+    label(for='password') Password
+    input#password(type='password', name='password', required)
+    button(type='submit') Register
