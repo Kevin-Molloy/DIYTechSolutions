@@ -1,0 +1,15 @@
+<div class="intro-box">
+  <h2>Welcome to DIY Tech Solutions</h2>
+  <p>Discover computer parts to fit your needs</p>
+</div>
+
+<ul class="items" *ngIf="items && items.length">
+  <li *ngFor="let item of items">
+    <h3>{{item._partName}}</h3>
+    <p class="desc">{{item._description}}</p>
+    <p class="price">€{{item._price}}</p>
+    <p class="quantity">In Stock: {{item._quantity}}</p>
+  </li>
+</ul>
+
+<p *ngIf="!items || items.length === 0">No items available at the moment.</p>

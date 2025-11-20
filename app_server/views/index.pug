@@ -1,12 +1,17 @@
 extends layout
 
 block content
-  .intro-box
-    h2 Welcome to the DIY Tech Solutions
+  div.intro-box
+    h2 Welcome to DIY Tech Solutions
     p Discover computer parts to fit your needs
-  ul.items
-    each item in items
-      li
-        h3= item.name
-        p= item.desc
-        p.price #{item.price}
+
+  if items && items.length
+    ul.items
+      each item in items
+        li
+          h3= item._partName
+          p.desc= item._description
+          p.price= '€' + item._price
+          p.quantity= 'In Stock: ' + item._quantity
+  else
+    p No items available at the moment.
