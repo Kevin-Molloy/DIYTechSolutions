@@ -1,16 +1,27 @@
 #!/usr/bin/env node
 
-console.log('==> Starting server initialization...');
-
-var app = require('../app');
-var debug = require('debug')('irish-mythology-store:server');
-
 const port = process.env.PORT || 3000;
 
 console.log('==> PORT:', port);
 console.log('==> NODE_ENV:', process.env.NODE_ENV || 'development');
+console.log('==> Starting server...');
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`==> Server is listening on port ${port}`);
-  console.log('==> Server successfully bound to 0.0.0.0:' + port);
+// Start server FIRST, then load app
+const express = require('express');
+const tempApp = express();
+
+tempApp.get('/health', (req, res) => res.send('OK'));
+
+const server = tempApp.listen(port, '0.0.0.0', () => {
+  console.log(`==> TEMP Server listening on port ${port}`);
+  console.log('==> Port bound successfully, now loading full app...');
+  
+  // Now load the full app
+  const app = require('../app');
+  
+  // Replace the temp app with real app
+  server.removeAllListeners('request');
+  server.on('request', app);
+  
+  console.log('==> Full app loaded and running');
 });
