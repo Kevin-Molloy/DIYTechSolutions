@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// Initialize DB connection first (non-blocking)
-require('./app_api/models/db');
-
 var app = express();
+
+// Initialize DB connection after app is created
+require('./app_api/models/db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
