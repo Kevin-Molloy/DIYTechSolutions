@@ -9,7 +9,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const home = function(req, res){
-  // In production on first load, use direct model access to avoid circular dependency
   if (process.env.NODE_ENV === 'production' && !apiOptions.serverReady) {
     const Part = require('../../app_api/models/parts');
     Part.find().lean()
