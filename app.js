@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const apiRoutes = require('./app_api/routes/index');
-require('./app_api/models/db');
+// Load DB connection asynchronously - don't block server startup
+setImmediate(() => require('./app_api/models/db'));
 var app = express();
 
 // view engine setup
