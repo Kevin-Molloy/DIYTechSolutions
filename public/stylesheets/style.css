@@ -136,4 +136,7 @@ form button:hover {
   background-color: #00CCCC; 
 }
 
+li p{
+  padding: 0.5rem;
+}
 
