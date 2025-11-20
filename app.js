@@ -4,14 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const apiRoutes = require('./app_api/routes/index');
-// Load DB connection asynchronously - don't block server startup
-setImmediate(() => require('./app_api/models/db'));
+// Initialize DB connection first (non-blocking)
+require('./app_api/models/db');
+
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'app_server', 'views'));
-app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
 
@@ -21,6 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Load routes after middleware
+const apiRoutes = require('./app_api/routes/index');
 const serverRoutes = require('./app_server/routes/index');
 
 // Front-end routes

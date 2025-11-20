@@ -9,26 +9,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const home = function(req, res){
-  if (process.env.NODE_ENV === 'production' && !apiOptions.serverReady) {
-    const Part = require('../../app_api/models/parts');
-    Part.find().lean()
-      .then(items => {
-        apiOptions.serverReady = true;
-        res.render('index', {
-          title: 'DIY Tech Solutions',
-          items: items
-        });
-      })
-      .catch(err => {
-        console.error('Error fetching parts:', err);
-        res.render('index', {
-          title: 'DIY Tech Solutions',
-          items: []
-        });
-      });
-    return;
-  }
-
   const path = '/api/Main';
   const requestOptions = {
     url: apiOptions.server + path,
