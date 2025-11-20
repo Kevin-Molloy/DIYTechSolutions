@@ -5,24 +5,48 @@ const apiOptions = {
 };
 
 if (process.env.NODE_ENV === 'production') { 
-  apiOptions.server = 'https://diytechsolutions.onrender.com';
+  apiOptions.server = process.env.RENDER_EXTERNAL_URL || 'https://diytechsolutions.onrender.com';
 }
 
 const home = function(req, res){
+  // In production on first load, use direct model access to avoid circular dependency
+  if (process.env.NODE_ENV === 'production' && !apiOptions.serverReady) {
+    const Part = require('../../app_api/models/parts');
+    Part.find().lean()
+      .then(items => {
+        apiOptions.serverReady = true;
+        res.render('index', {
+          title: 'DIY Tech Solutions',
+          items: items
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching parts:', err);
+        res.render('index', {
+          title: 'DIY Tech Solutions',
+          items: []
+        });
+      });
+    return;
+  }
+
   const path = '/api/Main';
   const requestOptions = {
     url: apiOptions.server + path,
     method: 'GET',
     json: {},
-    qs: {}
+    qs: {},
+    timeout: 5000
   };
   request(
     requestOptions,
     (err, response, body) => {
       let data = [];
-      if (response.statusCode === 200 && body) {
+      if (err) {
+        console.error('API request error:', err.message);
+      } else if (response && response.statusCode === 200 && body) {
         data = body;
-      } else if (response.statusCode !== 200) {
+      } else if (response) {
         console.error('Error from API:', response.statusCode);
       }
       res.render('index', {
